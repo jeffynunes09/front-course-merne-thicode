@@ -1,16 +1,11 @@
 
-import './App.css'
-import Home from './pages/Home/Home'
+import { Outlet } from 'react-router-dom'
+
 
 function App() {
  
-  const name ="Jefferson"
-
   return (
-      <>
-          
-          <Home/>
-      </>
+    <Outlet/>
   )
 }
 
