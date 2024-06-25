@@ -7,7 +7,7 @@ import Navbar from './components/Nav/Nav'
 import Home from './pages/Home/Home'
 import Search from './pages/Search/Search'
 
-
+import Authentication from './pages/Authentication/Authentication'
 const router = createBrowserRouter([
 
 {
@@ -28,7 +28,11 @@ const router = createBrowserRouter([
 
 
  ]
+},
+{
 
+  path:'/auth',
+  element: <Authentication/>
 }
 
 ])

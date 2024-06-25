@@ -1,23 +1,15 @@
 import React from 'react';
-import { Button, Nav, InputSpace, ImageLogo,Error } from './NavStyled';
+import { Button, Nav, InputSpace, ImageLogo,ErrorSpan } from './NavStyled';
 import Logo from "../../images/logo.png";
 import { FaSearchengin } from "react-icons/fa6";
 import { Outlet, useNavigate,Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import {z} from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod';
+import {searchSchema } from '../../schemas/searchSchema'
 
 
  
-const searchSchema = z.object({
-
-
-  title: z.string().min(1, { message: 'A pesquisa não pode ser vazia' })
-  .refine((value)=> !/^\/s*$/.test(value), {
-    message: 'A pesquisa não ter apenas espaços'
-  })
-
-})
 
 
 function Navbar() {
@@ -31,6 +23,11 @@ function Navbar() {
     const {title} = data 
      navigate(`/search/${title}`)
     reset(); // Reset form after submission if needed
+  }
+
+  const goAuth = () => {
+
+     navigate(`/auth`)
   }
 
   return (
@@ -47,9 +44,11 @@ function Navbar() {
 
         <Link to='/'><ImageLogo src={Logo} alt="logo Jn News" /></Link>
         
+        <Link to='/auth'>
         <Button>Entrar</Button>
+        </Link>
       </Nav>
-       {errors.title && <Error>{errors.title.message}</Error>}
+      {errors.title && <ErrorSpan>{errors.title.message}</ErrorSpan>}
        
       <Outlet/>
     </>
