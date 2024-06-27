@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 const baseURL = "https://course-mern-thicode.onrender.com";
 
 export function getAllPosts() {
-  const response = axios.get(`${baseURL}/posts`);
+  const response = axios.get(`https://course-mern-thicode.onrender.com/posts`);
   return response;
 }
 
