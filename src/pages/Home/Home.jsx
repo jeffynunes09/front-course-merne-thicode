@@ -1,38 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import Navbar from '../../components/Nav/Nav';
-import Card from '../../components/./Card/Card.jsx'
-import { HomeBody,HomeHeader } from './HomeStyled.js';
-import { getAllPosts,getTopPost } from '../../services/postsService.js';
+import { useState, useEffect } from "react";
 
-function Home() {
-    const [news, setNews] = useState([]);
-    const [topPost, setTopPost] = useState([]);
+import { Card } from "../../components/Card/Card";
+import { Navbar } from "../../components/Navbar/Navbar";
+import { getAllPosts, getTopPost } from "../../services/postsServices";
+import { HomeBody, HomeHeader } from "./HomeStyled";
+import Cookies from "js-cookie";
 
-    useEffect(() => {
-        async function findAllPosts() {
-            const response = await getAllPosts();
-            console.log(response);
-            setNews(response.data.results);
-        }
+export default function Home() {
+  const [posts, setPosts] = useState([]);
+  const [topPost, setTopPost] = useState({});
 
-      async function  FindTopPost(){
+  async function findPost() {
+    const postsResponse = await getAllPosts();
+    setPosts(postsResponse.data.results);
 
-        const topPostResponse = await getTopPost();
-        setTopPost(topPostResponse.data);
-      }  
-  
-   
-        findAllPosts();
-        FindTopPost()
-    }, []);
+    const topPostResponse = await getTopPost();
+    setTopPost(topPostResponse.data.post);
+  }
 
-    return (
-        <>
-      
-            <HomeHeader>
+  useEffect(() => {
+    findPost();
+  }, []);
+
+  return (
+    <>
+      <HomeHeader>
         <Card
-        top={true}
-        key={topPost.id}
+          top={true}
           title={topPost.title}
           text={topPost.text}
           banner={topPost.banner}
@@ -40,9 +34,8 @@ function Home() {
           comments={topPost.comments}
         />
       </HomeHeader>
-           
-            <HomeBody>
-            {news.map((item) => (
+      <HomeBody>
+        {posts.map((item) => (
           <Card
             key={item.id}
             title={item.title}
@@ -52,9 +45,7 @@ function Home() {
             comments={item.comments}
           />
         ))}
-            </HomeBody>
-        </>
-    );
+      </HomeBody>
+    </>
+  );
 }
-
-export default Home;

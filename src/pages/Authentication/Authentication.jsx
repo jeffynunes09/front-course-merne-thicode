@@ -1,73 +1,80 @@
-import React from 'react'
-import { AuthContainer, Section,Container } from './AuthenticationStyled'
-import { ErrorSpan, ImageLogo } from '../../components/Nav/NavStyled'
-import Logo from '../../images/logo.png'
-import Input from '../../components/Input/Input'
-import { Button } from '../../components/Button/Button'
-import {z} from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from "react-hook-form";
+import { Button } from "../../components/Button/Button";
+import { Input } from "../../components/Input/Input";
+import { AuthContainer, Section } from "./AuthenticationStyled";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signinSchema } from "../../schemas/signinSchema";
+import { ErrorSpan } from "../../components/Navbar/NavbarStyled";
+import { signupSchema } from "../../schemas/signupSchema";
+import { signin, signup } from "../../services/userServices";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
-import { Outlet, useNavigate,Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import{ signinSchema }from '../../schemas/signinSchema'
-import {signupSchema }from '../../schemas/signupSchema'
-function Authentication() {
+export function Authentication() {
+  const {
+    register: registerSignup,
+    handleSubmit: handleSubmitSignup,
+    formState: { errors: errorsSignup },
+  } = useForm({ resolver: zodResolver(signupSchema) });
 
+  const {
+    register: registerSignin,
+    handleSubmit: handleSubmitSignin,
+    formState: { errors: errorsSignin },
+  } = useForm({ resolver: zodResolver(signinSchema) });
 
-    const { register :registerSignup,
-         handleSubmit: handleSubmitSignup
-         ,formState:{errors :errorsSignup},
-         reset: resetSignup } = useForm({
-         resolver:zodResolver(signupSchema)
-      });
-      
-  
-    const { register :registerSignin,
-         handleSubmit: handleSubmitSignin
-         ,formState:{errors :errorsSignin},
-         reset: resetSignin } = useForm({
-            resolver:zodResolver(signinSchema)
-      });
-      
-       const inHandleSubmit =(data) => {
-        console.log(data)
-       }
-  
-       const upHandleSubmit =(data) => {
-        console.log(data)
-       }
-  
-      
-      const navigate = useNavigate()
+  async function inHanleSubmit(data) {
+    try {
+      const response = await signin(data);
+      Cookies.set("token", response.data, { expires: 1 });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const navigate = useNavigate();
+
+  async function upHanleSubmit(data) {
+    try {
+      const response = await signup(data);
+      Cookies.set("token", response.data, { expires: 1 });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
-     <Container>
-        <Link to='/'><ImageLogo src={Logo} alt="logo Jn News" /></Link>
-         <AuthContainer>
-        
-
-        <Section type="signin">
-
-            <h2>Entrar</h2>
-            <form onSubmit={handleSubmitSignin(inHandleSubmit)}>
-                <Input type="email" placeholder="Email" name="email" register={registerSignin}>
-                </Input>
-                {errorsSignin.email && (
-                <ErrorSpan>{errorsSignin.email.message}</ErrorSpan>
-                 )}
-                <Input type="password" placeholder="Senha" name="password" register={registerSignin}>
-                </Input>
-                {errorsSignin.password && (
+    <AuthContainer>
+      <Section type="signin">
+        <h2>Entrar</h2>
+        <form onSubmit={handleSubmitSignin(inHanleSubmit)}>
+          <Input
+            type="email"
+            placeholder="E-mail"
+            name="email"
+            register={registerSignin}
+          />
+          {errorsSignin.email && (
+            <ErrorSpan>{errorsSignin.email.message}</ErrorSpan>
+          )}
+          <Input
+            type="password"
+            placeholder="Senha"
+            name="password"
+            register={registerSignin}
+          />
+          {errorsSignin.password && (
             <ErrorSpan>{errorsSignin.password.message}</ErrorSpan>
           )}
-                <Button type="submit" text="Entrar">Entrar</Button>
-                
-            </form>
-            
-        </Section>
-        <Section type="signup">
+          <Button type="submit" text="Entrar" />
+        </form>
+      </Section>
+
+      <Section type="signup">
         <h2>Cadastrar</h2>
-        <form onSubmit={handleSubmitSignup(upHandleSubmit)}>
+        <form onSubmit={handleSubmitSignup(upHanleSubmit)}>
           <Input
             type="text"
             placeholder="Nome"
@@ -108,9 +115,5 @@ function Authentication() {
         </form>
       </Section>
     </AuthContainer>
-     </Container>
-    
-  )
+  );
 }
-
-export default Authentication

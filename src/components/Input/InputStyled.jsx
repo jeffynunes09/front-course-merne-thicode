@@ -14,11 +14,3 @@ export const TextareaSpace = styled.textarea`
   height: 200px;
   resize: none;
 `;
-export const Container = styled.div `
-
-
-display:flex;
-flex-direction:column;
-
-
-`

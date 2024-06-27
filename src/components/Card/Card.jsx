@@ -1,23 +1,17 @@
-  import React from 'react'
-  import { BsHandThumbsUp } from "react-icons/bs";
-  import { BsHandThumbsUpFill } from "react-icons/bs";
-  import { BsChatDots } from "react-icons/bs";
-  import { BsChatDotsFill } from "react-icons/bs";
-  import { CardBody,CardHeader, CardContainer, CardFooter } from './CardStyled';
-import TextLimit from '../TextLimit/TextLimit';
+import { Link } from "react-router-dom";
+import { TextLimit } from "../TextLimit/TextLimit";
+import { CardBody, CardContainer, CardFooter, CardHeader } from "./CardStyle";
 
-
-
-function Card({    top,
+export function Card({
+  top,
   title,
   text,
   likes,
   comments,
   banner,
   actions = false,
-  id,}) 
-
- {
+  id,
+}) {
   return (
     <CardContainer>
       <CardBody>
@@ -26,10 +20,10 @@ function Card({    top,
             {actions && (
               <span>
                 <Link to={`/manage-news/edit/${id}`}>
-                  <BsHandThumbsUp className="bi bi-pencil-square"></BsHandThumbsUp>
+                  <i className="bi bi-pencil-square"></i>
                 </Link>
                 <Link to={`/manage-news/delete/${id}`}>
-                  <BsHandThumbsUp className="bi bi-trash3"></BsHandThumbsUp>
+                  <i className="bi bi-trash3"></i>
                 </Link>
               </span>
             )}
@@ -39,12 +33,12 @@ function Card({    top,
 
           <CardFooter>
             <section>
-              <BsHandThumbsUp className="bi bi-hand-thumbs-up"></BsHandThumbsUp>
+              <i className="bi bi-hand-thumbs-up"></i>
               <span>{likes?.length}</span>
             </section>
 
             <section>
-              <BsChatDots className="bi bi-chat"></BsChatDots>
+              <i className="bi bi-chat"></i>
               <span>{comments?.length}</span>
             </section>
           </CardFooter>
@@ -55,8 +49,3 @@ function Card({    top,
     </CardContainer>
   );
 }
-  
-
-
-export default Card
-  

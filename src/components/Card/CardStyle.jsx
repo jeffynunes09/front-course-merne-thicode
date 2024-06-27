@@ -51,7 +51,6 @@ export const CardHeader = styled.article`
     gap: 1rem;
   }
 
-
   i {
     cursor: pointer;
     color: #0bade3;
@@ -72,6 +71,3 @@ export const CardFooter = styled.article`
     gap: 0.2rem;
   }
 `;
-
-
-

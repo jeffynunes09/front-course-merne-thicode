@@ -1,12 +1,5 @@
-import React from 'react'
-import { ButtonSpace } from './ButtonStyled'
+import { ButtonSpace } from "./ButtonStyled";
 
-export function Button ({ text,type}) {
-
-
-return <ButtonSpace type={type}>
-      {text}
-</ButtonSpace>
-
-
+export function Button({ type, text }) {
+  return <ButtonSpace type={type}>{text}</ButtonSpace>;
 }
