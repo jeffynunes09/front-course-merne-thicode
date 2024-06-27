@@ -1,10 +1,10 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const baseURL = "https://course-mern-thicode.onrender.com";
+const baseURL = "https://course-mern-thicode.onrender.com/api";
 
 export function getAllPosts() {
-  const response = axios.get(`https://course-mern-thicode.onrender.com/posts`);
+  const response = axios.get(`${baseURL}/posts`);
   return response;
 }
 
