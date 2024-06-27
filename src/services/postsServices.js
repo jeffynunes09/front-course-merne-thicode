@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const baseURL = "http://localhost:3001";
+const baseURL = "https://course-mern-thicode.onrender.com";
 
 export function getAllPosts() {
   const response = axios.get(`${baseURL}/posts`);
